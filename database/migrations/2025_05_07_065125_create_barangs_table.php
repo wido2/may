@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('satuan_id')->constrained('satuans')->cascadeOnDelete();
             $table->timestamps();
         });
-    }
+    }   
 
     /**
      * Reverse the migrations.

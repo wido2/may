@@ -19,7 +19,7 @@ class Listbarang extends Component
     public $stock=0;
     public $price=0;
     public bool $showModalBarang = false;
-    public ?barang $barang;
+    public ?barang $barang=null;
 
     #[On('openModalBarang')]
     public function openModalBarang()
@@ -32,6 +32,7 @@ class Listbarang extends Component
         $this->showModalBarang = false;
     }
     public function mount(barang $barang){
+        $this->barang = $barang;
         $this->id = $barang->id;
         $this->name = $barang->name;
         $this->description = $barang->description;
@@ -86,6 +87,9 @@ class Listbarang extends Component
 
     public function render()
     {
-        return view('core.barang.listbarang')->layout('layouts.app');
+        return view('core.barang.listbarang',[
+            'categories' => \App\Models\Category::all(),
+            'satuans' => \App\Models\Satuan::all()
+        ])->layout('layouts.app');
     }
 }

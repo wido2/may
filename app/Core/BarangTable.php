@@ -3,8 +3,11 @@
 namespace App\Core;
 
 use App\Models\barang;
+use App\Models\category;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Number;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -42,18 +45,53 @@ final class BarangTable extends PowerGridComponent
     }
 
     public function fields(): PowerGridFields
-    {
+    {       
+        //  $options = $this->categorySelectOptions();
+
         return PowerGrid::fields()
             ->add('name')
             ->add('description')
             ->add('stock')
-            ->add('price',function($barang){
+            ->add('price')
+            ->add('price_formatted',function($barang){
                 return Number::currency($barang->price, in: 'IDR', locale: 'id_ID');
             })
 
-            ->add('category_id')
-            ->add('satuan_id')
-            ->add('created_at');
+            ->add('category_name', function ($barang) {
+                return $barang->category->name;
+            })
+            ->add('satuan_id', function ($barang) {
+                return $barang->satuan->name;
+            })
+            ->add('created_at')
+            ->add('created_at_formatted', function ($barang) {
+                return Carbon::parse($barang->created_at)->format('d/m/Y');
+            });
+    }
+    // public function categorySelectOptions(): Collection
+    // {
+    //     return category::all(['id', 'name'])->mapWithKeys(function ($category) {
+    //         return [$category->id => $category->name];
+    //     });
+    // }
+
+    public function onUpdatedEditable(string|int $id, string $field, string $value): void
+    {
+        if ($field === 'price_formatted') { 
+
+            //Override the field
+            $field = 'price'; 
+            
+            // Parse the value
+            // 10.000,00 $ => 10000.00
+            $value = str($value)->replace('.', '')
+                ->replace(',', '.')
+                ->replaceMatches('/[^Z0-9\.]/', '')
+                ->toString();
+        }
+        barang::query()->find($id)->update([
+            $field => e($value),
+        ]);
     }
 
     public function columns(): array
@@ -61,22 +99,27 @@ final class BarangTable extends PowerGridComponent
         return [
             Column::make('Name', 'name')
                 ->sortable()
+                ->editOnClick()
                 ->searchable(),
 
             Column::make('Description', 'description')
                 ->sortable()
+                ->editOnClick()
                 ->searchable(),
 
             Column::make('Stock', 'stock')
                 ->sortable()
+                ->editOnClick()
                 ->searchable(),
 
-            Column::make('Price', 'price')
+            Column::make('Price', 'price_formatted')
                 ->sortable()
-
+                ->editOnClick(
+                    
+                )
                 ->searchable(),
 
-            Column::make('Category', 'category_id')
+            Column::make('Category', 'category_name')
                 ->sortable()
                 ->searchable(),
 
@@ -84,7 +127,7 @@ final class BarangTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Created at', 'created_at')
+            Column::make('Created at', 'created_at_formatted')
                 ->sortable()
                 ->searchable(),
 
@@ -98,11 +141,7 @@ final class BarangTable extends PowerGridComponent
         ];
     }
 
-    #[\Livewire\Attributes\On('edit')]
-    public function edit($rowId): void
-    {
-        $this->js('alert('.$rowId.')');
-    }
+    
 
     public function actions(barang $row): array
     {
@@ -110,8 +149,13 @@ final class BarangTable extends PowerGridComponent
             Button::add('edit')
                 ->slot('Edit: '.$row->id)
                 ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->class('pg-btn-white btn dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                ->dispatch('edit', ['rowId' => $row->id]),
+            Button::add('delete')
+                ->slot('Delete')
+                ->id()
+                ->class('pg-btn-white btn dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                ->dispatch('delete', ['rowId' => $row->id]),
         ];
     }
 

@@ -25,11 +25,11 @@ class ListSatuan extends Component
     }
 
     public function mount(satuan $satuan){
+            $this->id = $satuan->id;
             $this->satuan = $satuan;
             $this->name = $satuan->name;
             $this->description = $satuan->description;
             $this->is_active = $satuan->is_active;
-            $this->id = $satuan->id;
     }
     #[On('delete')]
     public function delete($rowId): void
