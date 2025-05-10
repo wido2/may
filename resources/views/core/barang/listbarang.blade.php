@@ -30,46 +30,46 @@
                                     <span class="text-red-500 text-xs"> {{ $message }} </span>
                                 @enderror
                             </fieldset>
-                            
+
 
                         </div>
 
                         <div class="col-start-1 col-end-4 ">
                             <fieldset class="fieldset">
-                            <legend class="fieldset-legend">Price</legend>
-                            
+                                <legend class="fieldset-legend">Price</legend>
+
                                 <input type="number" wire:model="price" class="input w-full" placeholder="Type here" />
                                 @error('price')
                                     <span class="text-red-500 text-xs"> {{ $message }} </span>
                                 @enderror
-                           </fieldset>
+                            </fieldset>
                         </div>
                         <div class="col-start-4 col-end-7 ">
                             <fieldset class="fieldset">
                                 <legend class="fieldset-legend">Stock</legend>
-                                 
+
                                 <input type="number" wire:model="stock" class="input w-full" placeholder="Type here" />
-                                
+
                                 @error('stock')
                                     <span class="text-red-500 text-xs"> {{ $message }} </span>
                                 @enderror
                             </fieldset>
                         </div>
                         <div class="col-start-1 col-end-4 ">
-                        <div class="col-start-4 col-end-7 ">
-                            <fieldset class="fieldset">
-                                <legend class="fieldset-legend">Category</legend>
-                                <select wire:model="category_id" class="select w-full">
-                                    <option value="">Select Category</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('category_id')
-                                    <span class="text-red-500 text-xs"> {{ $message }} </span>
-                                @enderror
-                            </fieldset>
-                        </div>
+                            <div class="col-start-4 col-end-7 ">
+                                <fieldset class="fieldset">
+                                    <legend class="fieldset-legend">Category</legend>
+                                    <select wire:model="category_id" class="select w-full">
+                                        <option value="">Select Category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('category_id')
+                                        <span class="text-red-500 text-xs"> {{ $message }} </span>
+                                    @enderror
+                                </fieldset>
+                            </div>
                         </div>
                         <div class="col-start-4 col-end-7 ">
                             <fieldset class="fieldset">

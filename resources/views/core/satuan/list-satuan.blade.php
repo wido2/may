@@ -23,7 +23,7 @@
                             <fieldset class="fieldset w-full">
                                 <legend class="fieldset-legend">Description</legend>
                                 <textarea wire:model="description" class="textarea w-full" placeholder="Category Description"></textarea>
-                                @error('name')
+                                @error('description')
                                     <span class="text-red-500 text-xs"> {{ $message }} </span>
                                 @enderror
                             </fieldset>

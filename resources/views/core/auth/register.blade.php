@@ -1,108 +1,67 @@
-<div class="card w-full max-w-md  shadow-xl">
-    <div class="card-body">
-        <h2 class="card-title text-2xl font-bold mb-4">Daftar Akun Baru</h2>
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img class="mx-auto h-10 w-auto"
+            src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
+        <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Create your account</h2>
+    </div>
 
-        <form wire:submit.prevent="register" class="space-y-4">
-            <!-- Nama Lengkap -->
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Nama Lengkap</span>
-                </label>
-                <input wire:model="name" type="text" placeholder="Masukkan nama lengkap" class="input input-bordered"
-                    required />
-                
-                @error('name')
-                    <p class="text-red-600 text-sm">{{ $message }}</p>
-                @enderror
-
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form class="space-y-6" wire:submit="register">
+            <div>
+                <label for="name" class="block text-sm/6 font-medium text-gray-900">Name</label>
+                <div class="mt-2">
+                    <input type="text" name="name" wire:model="name" id="name" autocomplete="name" required
+                        class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                </div>
+            </div>
+            
+            <div>
+                <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
+                <div class="mt-2">
+                    <input type="email" name="email" wire:model="email" id="email" autocomplete="email" required
+                        class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                    @error('email')
+                        <p class="text-red-600 text-sm">{{ $message }}</p>
+                        
+                    @enderror
+                </div>
             </div>
 
-            <!-- Email -->
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Email</span>
-                </label>
-                <input type="email" wire:model="email" placeholder="contoh@email.com" class="input input-bordered"
-                    required />
-                @error('email')
-                    <p class="text-red-600 text-sm">{{ $message }}</p>
-                @enderror
+            <div>
+                <div class="flex items-center justify-between">
+                    <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
+                    
+                </div>
+                <div class="mt-2">
+                    <input type="password" wire:model="password" name="password" id="password" autocomplete="current-password" required
+                        class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                    @error('password')
+                        <p class="text-red-600 text-sm">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+            <div>
+                <div class="flex items-center justify-between">
+                    <label for="password_confirmation" class="block text-sm/6 font-medium text-gray-900">Confirm Password</label>
+                </div>
+                <div class="mt-2">
+                    <input type="password" wire:model="password_confirmation" name="password_confirmation" id="password_confirmation" autocomplete="new-password" required
+                        class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                    @error('password_confirmation')
+                        <p class="text-red-600 text-sm">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
 
-            <!-- Password -->
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Password</span>
-                </label>
-                <input type="password" wire:model="password" placeholder="********" class="input input-bordered"
-                    required />
-                @error('password')
-                    <p class="text-red-600 text-sm">{{ $message }}</p>
-                @enderror
-
-            </div>
-
-            <!-- Konfirmasi Password -->
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Konfirmasi Password</span>
-                </label>
-                <input type="password" wire:model="password_confirmation" placeholder="********"
-                    class="input input-bordered" required />
-                @error('password_confirmation')
-                    <p class="text-red-600 text-sm">{{ $message }}</p>
-                @enderror
-            </div>
-
-
-            <!-- Checkbox Terms -->
-            <div class="form-control">
-                <label class="label cursor-pointer justify-start gap-2">
-                    <input type="checkbox" class="checkbox checkbox-primary" required />
-                    <span class="label-text">Saya menyetujui <a href="#" class="link link-primary">Syarat &
-                            Ketentuan</a></span>
-                </label>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="form-control mt-6">
-                <button id="loginBtn" class="btn btn-primary text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                    </svg>
-                    Login
-                  </button>
-            </div>
-
-            <!-- Login Link -->
-            <div class="text-center">
-                <p>Sudah punya akun? <a wire:navigate href="{{ route('login') }}" class="link link-primary">Masuk
-                        disini</a></p>
+            <div>
+                <button type="submit"
+                    class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create Account</button>
             </div>
         </form>
-        @script
-            document.getElementById('loginBtn').addEventListener('click', function() {
-              const btn = this;
-              
-              // Tambahkan class loading
-              btn.classList.add('loading');
-              btn.disabled = true;
-              
-              // Ganti teks tombol
-              const originalText = btn.innerHTML;
-              btn.innerHTML = 'Memproses...';
-              
-              // Simulasi proses login (3 detik)
-              setTimeout(function() {
-                // Hapus class loading setelah selesai
-                btn.classList.remove('loading');
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-                
-                // Alert login berhasil (bisa diganti dengan redirect dll)
-                
-              }, 3000);
-            });
-        @endscript
+
+        <p class="mt-10 text-center text-sm/6 text-gray-500">
+            Already have an account?
+            <a wire:navigate href="{{ route('login') }}" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign in</a>
+        </p>
     </div>
 </div>
