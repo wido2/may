@@ -78,7 +78,7 @@ class ListCategory extends Component
 
     public function store(){
         $this->validate();
-        category::updateOrCreate(
+        $data=category::updateOrCreate(
             ['id'=>$this->category->id],
             [
                 'name'=>$this->name,
@@ -86,7 +86,8 @@ class ListCategory extends Component
                 'description'=>$this->description
             ]);
         $this->closeModal();
-        return redirect()->route('category');
+        $this->dispatch('notify',"Category '{$this->name}' saved successfully",'success');
+        // return redirect()->route('category');
     }
     
 

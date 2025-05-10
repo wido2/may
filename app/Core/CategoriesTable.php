@@ -83,9 +83,10 @@ final class CategoriesTable extends PowerGridComponent
       
 
     #[On('delete')]
-    public function delete($rowId): void
+    public function delete($rowId, $name): void
     {
         category::query()->find($rowId)->delete();
+        $this->dispatch('notify','Category '.$name.' deleted successfully', 'success');
 
     }
     public function actions(category $row): array
@@ -100,7 +101,11 @@ final class CategoriesTable extends PowerGridComponent
                 ->slot('Delete')
                 ->id()
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('delete', ['rowId' => $row->id]),
+                ->dispatch('delete', [
+                    'rowId' => $row->id,
+                    'name' => $row->name
+                
+                ]),
             
         ];
     }

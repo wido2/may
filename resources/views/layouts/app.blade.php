@@ -139,10 +139,13 @@
                     <span class="badge badge-xs badge-primary indicator-item"></span>
                 </div>
             </button>
+            <livewire:auth.logout/>
         </div>
+    
     </div>
-
+    <livewire:notification />
     {{ $slot }}
+    
 </body>
 
 </html>

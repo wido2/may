@@ -82,9 +82,6 @@ class Listbarang extends Component
         $this->closeModalBarang();
         return redirect()->route('barang');
     }
-
-
-
     public function render()
     {
         return view('core.barang.listbarang',[
